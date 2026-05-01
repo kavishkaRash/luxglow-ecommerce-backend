@@ -48,8 +48,9 @@ mongoose.connect(connectionString).then(
         console.log("Databace Connected")
     }
 ).catch(
-    () => {
+    (err) => {
         console.log("Databace connection Failed")
+        console.log(err)
     }
 )
 
@@ -63,5 +64,5 @@ app.use("/api/orders", orderRouter);
 
 
 app.listen(5001, () => {
-  console.log("Server is Started");
+  console.log("Server is Started port 5001");
 });
