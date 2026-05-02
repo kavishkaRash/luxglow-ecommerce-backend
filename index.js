@@ -31,11 +31,12 @@ app.use(
                         return
                     }else{
                         req.user = decoded;
+                        
                     }
                 } 
             )
-        }
-        next()
+        }next();
+        
     }
 );
 

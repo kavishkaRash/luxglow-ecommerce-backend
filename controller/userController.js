@@ -2,20 +2,20 @@ import User from "../models/user.js";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
 
-export function getUser(req, res) {
+// export function getUser(req, res) {
 
-    User.find().then(
-        (data) => {
-            res.json(
-                data
-            )
-        }
-    ).catch(
-        () => {
+//     User.find().then(
+//         (data) => {
+//             res.json(
+//                 data
+//             )
+//         }
+//     ).catch(
+//         () => {
 
-        }
-    );
-}
+//         }
+//     );
+// }
 
 export function createUser(req, res) {
 
@@ -65,7 +65,9 @@ export function loginUser(req, res) {
                             firstName: user.firstName,
                             lastName: user.lastName,
                             role: user.role,
-                            isEmailVerified: user.isEmailVerified
+                            isEmailVerified: user.isEmailVerified,
+                            image: user.image,
+
                         },
                         process.env.JWT_SECRET
                     )
@@ -78,7 +80,8 @@ export function loginUser(req, res) {
                             firstName: user.firstName,
                             lastName: user.lastName,
                             role: user.role,
-                            isEmailVerified: user.isEmailVerified
+                            isEmailVerified: user.isEmailVerified,
+                            image: user.image,
                         }
                     })
                 } else {
@@ -114,4 +117,16 @@ export function isCustomer(req) {
     }
 
     return true;
+}
+
+export function getUser(req,res) {
+    if(req.user == null){
+        res.status(401).json({
+            message: "Unauthorized"
+        })
+    } else {
+        res.json( 
+            req.user
+        )
+    }
 }
