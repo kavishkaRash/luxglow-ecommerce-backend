@@ -1,6 +1,7 @@
 import User from "../models/user.js";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
+import axios from "axios"
 
 // export function getUser(req, res) {
 
@@ -119,14 +120,115 @@ export function isCustomer(req) {
     return true;
 }
 
-export function getUser(req,res) {
-    if(req.user == null){
+export function getUser(req, res) {
+    if (req.user == null) {
         res.status(401).json({
             message: "Unauthorized"
         })
     } else {
-        res.json( 
+        res.json(
             req.user
         )
     }
+}
+
+export async function googleLogin(req, res) {
+    const token = req.body.token;
+
+    if (token == null) {
+        res.status(400).json(
+            {
+                message: "Token is required"
+
+            }
+        )
+        return;
+    }
+
+
+    try {
+
+        const googleResponse = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        const googleuser = googleResponse.data;
+
+        const user = await User.findOne({
+            email: googleuser.email
+        })
+
+        if (user == null) {
+            const newUser = new User({
+                email: googleuser.email,
+                firstName: googleuser.given_name,
+                lastName: googleuser.family_name,
+                password: "abc",
+                isEmailVerified: googleuser.email_verified,
+                image: googleuser.picture,
+            })
+
+            let savedUser = await newUser.save();
+
+            const jwtToken = jwt.sign(
+                {
+                    email: savedUser.email,
+                    firstName: savedUser.firstName,
+                    lastName: savedUser.lastName,
+                    role: savedUser.role,
+                    isEmailVerified: savedUser.isEmailVerified,
+                    image: savedUser.image,
+                },
+                process.env.JWT_SECRET
+            );
+            res.json({
+                message: "Login Successfully",
+                token: jwtToken,
+                user: {
+                    email: savedUser.email,
+                    firstName: savedUser.firstName,
+                    lastName: savedUser.lastName,
+                    role: savedUser.role,
+                    isEmailVerified: savedUser.isEmailVerified,
+                    image: savedUser.image,
+                }
+            });
+            return
+
+
+        } else {
+            const jwtToken = jwt.sign(
+                {
+                    email: user.email,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    role: user.role,
+                    isEmailVerified: user.isEmailVerified,
+                    image: user.image,
+                },
+                process.env.JWT_SECRET
+            )
+
+            res.json({
+                message: "Login Successfully",
+                token: jwtToken,
+                user: {
+                    email: user.email,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    role: user.role,
+                    isEmailVerified: user.isEmailVerified,
+                    image: user.image,
+                }
+            });
+            return
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Failed to login with google"
+        })
+    }
+
 }

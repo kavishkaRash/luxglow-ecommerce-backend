@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
     },
     image : {
         type: String,
-        default : "https://pbs.twimg.com/profile_images/1795917311620378625/Dnrm-QVf_400x400.jpg"
+        default : ""
     }
 
 })
