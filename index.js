@@ -8,6 +8,7 @@ import dotenv from "dotenv";
 import orderRouter from "./routes/orderRouter.js";
 import contactRouter from "./routes/contactRoute.js";
 import reviewRouter from "./routes/review.js";
+import adminRouter from "./routes/adminRoute.js";
 
 dotenv.config();
 
@@ -68,6 +69,8 @@ app.use("/api/orders", orderRouter);
 app.use("/api/contact", contactRouter);
 
 app.use("/api/review", reviewRouter);
+
+app.use("/api/admin", adminRouter);
 
 
 app.listen(5001, () => {
