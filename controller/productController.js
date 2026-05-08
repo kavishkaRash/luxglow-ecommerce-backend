@@ -80,7 +80,7 @@ export async function deletProduct(req, res) {
     }
 }
 
-export async function updateProduct(req,res) {
+export async function updateProduct(req, res) {
 
 
     if (!isAdmin(req)) {
@@ -96,36 +96,36 @@ export async function updateProduct(req,res) {
         const updateData = req.body;
 
         await Product.updateOne(
-            {productID : productID},
+            { productID: productID },
             updateData
         );
         res.json({
-            message : "Product Updated Successfully"
+            message: "Product Updated Successfully"
         });
 
     } catch (err) {
         console.error(err)
         res.status(500).json(
             {
-                message : "Failed To update Product"
+                message: "Failed To update Product"
             }
         );
     }
-    
+
 }
 
-export async function getProductById(req,res) {
-    
+export async function getProductById(req, res) {
+
     try {
         const productID = req.params.productID;
 
         const product = await Product.findOne(
-            {productID : productID}
+            { productID: productID }
         )
 
         if (product == null) {
             res.status(404).json({
-                message : "Product Not Found"
+                message: "Product Not Found"
             });
         } else {
             res.json(product);
@@ -134,6 +134,31 @@ export async function getProductById(req,res) {
         console.error(err);
         res.status(500).json({
             message: "Failed to retrives products by ID"
+        })
+    }
+}
+
+export async function getProductsBySearch(req, res) {
+    try {
+        const query = req.params.query;
+        const products = await Product.find({
+            $or: [
+                {
+                    name: {
+                        $regex: query,
+                        $options: "i"
+                    }
+                },
+                {
+                    altNames: { $elemMatch: { $regex: query, $options: "i" } }
+                }
+            ]
+        });
+        res.json(products);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Failed to retrives products by search"
         })
     }
 }
