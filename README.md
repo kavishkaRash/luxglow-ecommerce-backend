@@ -1,53 +1,85 @@
-# 🛒 LuxGlow E-Commerce Backend (WIP)
+# 🛒 LuxGlow E-Commerce Backend (MERN API)
 
-This is the backend API for the LuxGlow e-commerce application.  
-It is built using Node.js, Express, and MongoDB.
-
-The backend handles authentication, product management, and order processing for the platform.
+A scalable backend API for the LuxGlow e-commerce platform built using Node.js, Express, and MongoDB.  
+This project handles product management, user operations, and REST API integration for the frontend application.
 
 ---
 
-## 🚀 Tech Stack
+## 🚀 Features
+- RESTful API architecture
+- Product CRUD operations
+- User management system (basic structure)
+- MongoDB database integration
+- Express.js server setup
+- API ready for frontend integration
+
+---
+
+## 🛠️ Tech Stack
 - Node.js
 - Express.js
 - MongoDB
 - Mongoose
-- JWT (Authentication)
+- JavaScript (ES6+)
 
 ---
 
 ## 📁 Project Structure
-- controllers/ → Business logic (users, products)
-- models/ → Database schemas
-- routes/ → API routes
-- middleware/ → Auth & error handling
-- config/ → Database connection
-- server.js → Entry point
+controllers/ → Business logic (products, users)  
+models/ → MongoDB schemas  
+routes/ → API endpoints  
+config/ → Database connection  
+middlewares/ → Error handling, auth (if used)  
+server.js → Main entry point  
 
 ---
 
-## ✨ Features
-- User registration & login
-- JWT authentication & authorization
-- Product CRUD operations
-- Order management system (WIP)
-- MongoDB database integration
+## 📡 API Endpoints (Example)
+
+### Products
+- GET /api/products → Get all products  
+- POST /api/products → Create product  
+- PUT /api/products/:id → Update product  
+- DELETE /api/products/:id → Delete product  
+
+### Users (if implemented)
+- GET /api/users  
+- POST /api/users  
 
 ---
 
-## 🛠️ API Endpoints (Example)
-- POST /api/users/register
-- POST /api/users/login
-- GET /api/products
-- POST /api/products (admin only)
-- POST /api/orders
+## 🔐 Authentication (if included)
+- JWT-based authentication (basic level)
+- Protected routes for secure operations
 
 ---
 
-## 📌 Status
-This project is currently under development (WIP).
+## 🧠 Key Learnings
+- Building REST APIs with Express.js  
+- MongoDB CRUD operations  
+- Backend architecture structuring  
+- API integration with frontend React app  
+- Database modeling using Mongoose  
+
+---
+
+## 🛠️ Future Improvements
+- JWT authentication upgrade  
+- Role-based access control (Admin/User)  
+- Cart & order system  
+- Payment gateway integration  
+- Input validation & security improvements  
+
+---
+
+## 📌 Project Status
+🚧 Under development (MVP stage)
 
 ---
 
 ## 👨‍💻 Author
-Kavishka Rashen
+**D. Kavishka Rashen**  
+Full Stack Developer (MERN / Next.js)
+
+GitHub: https://github.com/kavishkaRash  
+Portfolio: https://kavishka-portfolio.netlify.app
